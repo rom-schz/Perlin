@@ -46,6 +46,16 @@ namespace Perlin
         initOrder();
     }
 
+    std::vector<float> const Perlin::getNode(std::vector<uint64_t>& coo)
+    {
+        uint64_t oneDimCoo = 0;
+        for (int i = 0; i < sizes.size(); i++) {
+            oneDimCoo += coo[i] * prod_sizes[i];
+        }
+
+        return nodes[oneDimCoo];
+    }
+
     void Perlin::initOrder() {
 
         this->nodes_order = std::vector<uint64_t>();
@@ -75,9 +85,7 @@ namespace Perlin
         for (uint64_t i = 0; i < dim; i++) { prod_sizes.push_back(prod); prod *= sizes[i]; }
         prod_sizes.push_back(prod);
 
-        if (debug) std::cout << "Pas encore dans la boucle!" << std::endl;
-
-        // Adding all vectors
+        // Adding nodes to the grid
         for (uint64_t i = 0; i < prod_sizes[dim]; i++) {
 
             if (debug) std::cout << "Loop : " << i << std::endl;

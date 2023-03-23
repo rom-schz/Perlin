@@ -12,9 +12,9 @@ namespace Perlin
 
     private:
         uint64_t dim;
-        std::vector<uint64_t> sizes; // [1, n, n * m, n * m * p, ...]
+        std::vector<uint64_t> sizes; // [n, m, p, ...]
         std::vector<uint64_t> prod_sizes; // [1, n, n * m, n * m * p, ...]
-        std::vector<std::vector<float>> nodes;
+        std::vector<std::vector<float>> nodes; // The values stored in the grid
         std::vector<uint64_t> nodes_order; // The order of the nodes to consider for pairwise interpolation
 
         // Return the norm of a given vector.
@@ -26,14 +26,26 @@ namespace Perlin
         // Return a random vector with coordinates between -RAND_MAX and RAND_MAX.
         std::vector<float> unitVect(std::vector<float>&& v);
 
+        // Initialize order of the nodes used in pairwise interpolation
         void initOrder();
+
+        // Initialize the grid with random values, respecting periodicity
         void initGrid();
+
+
         void increase_counters(std::vector<uint64_t>& counters);
+
+        /**
+        * @param counters the counter values for each dimension of the grid
+        * @return the dimension to chose to apply periodicity to the given element. Return à if no periodicity should be applied.
+        */
         int64_t periodicityTest(std::vector<uint64_t>& counters);
 
     public:
         // Initialize the grid with given sizes (e.g.: [n, m, p] describes the grid of a noise of dimension 3).
         Perlin(std::vector<uint64_t>& sizes);
+
+        std::vector<float> const getNode(std::vector<uint64_t>& coo);
 
         void print();
 
