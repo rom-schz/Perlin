@@ -1,4 +1,4 @@
-#include <iostream>
+#include <vector>
 
 #include "pch.h"
 
@@ -7,9 +7,9 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTest1D
+namespace UnitTest
 {
-	TEST_CLASS(UnitTest1D)
+	TEST_CLASS(UnitTest)
 	{
 	public:
 
