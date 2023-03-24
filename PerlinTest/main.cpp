@@ -8,8 +8,7 @@
 int main(int argc, char* argv[]) {
 
 	std::vector<uint64_t> sizes = std::vector<uint64_t>();
-	sizes.push_back(8);
-	sizes.push_back(8);
+	sizes.push_back(2);
 
 	std::cout << "Computing grid... ";
 	Perlin::Perlin p = Perlin::Perlin(sizes);
