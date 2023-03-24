@@ -5,6 +5,7 @@
 #include <cmath>
 #include <numeric>
 #include <iostream>
+#include <bitset>
 
 #include "perlin.h"
 
@@ -152,4 +153,132 @@ namespace Perlin
 
     }
 
+    uint64_t Perlin::getNode(std::vector<float>& coordinates) {
+        uint64_t node=0;
+
+        for (int i = 0; i < coordinates.size(); i++)
+            node += (int(coordinates[i]) % (sizes[i]-1)) * prod_sizes[i];
+
+        return node;
+    }
+
+    std::vector<std::vector<float>> Perlin::hCubePositionVect(std::vector<float>& coos) {
+        std::vector<std::vector<float>> relativeCoordinates;
+
+        for (uint64_t i = 0; i < (1 << dim); i++) {
+
+            // Compute the coordinates of the point to which the relative position should be computed.
+            // The result has to be in binary.
+            uint64_t num = i;
+            //std::cout << "Number to convert: " << num << " | ";
+            uint64_t c = 0;
+            uint64_t r = 0;
+            std::vector<uint64_t> binArray;
+            for (int i = 0; i < dim; i++) binArray.push_back(0);
+            while (c < dim) {
+                r = num % 2;
+                binArray[c++] = r;
+                num /= 2;
+            }
+
+            //std::cout << "Converted value: ";
+            //for (int k = 0; k < dim; k++) std::cout << binArray[k];
+            //std::cout << std::endl;
+
+            //std::cout << "Computing relative position... ";
+            // Compute position vector relative to each point
+            std::vector<float> relativeCoordinatesPoint;
+            for (uint64_t j = 0; j < dim; j++) {
+                relativeCoordinatesPoint.push_back(coos[j] - binArray[j]);
+            }
+            //std::cout << std::endl << "done !" << std::endl;
+
+            //std::cout << "Ici" << std::endl;
+
+            relativeCoordinates.push_back(relativeCoordinatesPoint);
+            //std::cout << "Really done?" << std::endl;
+        }
+
+        //std::cout << "All done!" << std::endl;
+
+        // Return all the position vector relative to each point of the hypercube of dimension dim
+        return relativeCoordinates;
+    }
+
+    float Perlin::interpolate(float val0, float val1, float w) {
+        return (val1 - val0) * ((w * (w * 6.0 - 15.0) + 10.0) * w * w * w) + val0;
+    }
+
+    float Perlin::noise(std::vector<float>& coordinates) {
+
+        /* Prepare coordinates to compute noise */
+        if (coordinates.size() != this->sizes.size()) {
+            std::cerr << "transformCoordinates error : coordinates do not have the proper dimension. Dimensions should be "
+                << this->sizes.size() << ", but are " << coordinates.size() << std::endl;
+            exit(EXIT_FAILURE);
+        }
+
+        //std::cout << "Getting node... " << std::endl;
+        // Get the grid element in which the point is
+        uint64_t node = getNode(coordinates);
+        //std::cout << "done !" << std::endl;
+
+        //std::cout << "Computing unit coordinates... ";
+        // Compute the unit coordinates of the point in the cell
+        std::vector<float> unitCoo;
+        for (float f : coordinates)
+            unitCoo.push_back(f - int(f));
+        //std::cout << "done !" << std::endl;
+
+        //std::cout << "Computing relative positions... ";
+        /* Compute dot products between positions and gradients vectors */
+        std::vector<std::vector<float>> positions = hCubePositionVect(unitCoo);
+        std::vector<float> values;
+        //std::cout << "done !" << std::endl;
+
+        int debug = 0;
+        if (debug) {
+            for (std::vector<float> pos : positions) {
+                std::cout << "Position" << std::endl;
+                for (float f : pos) std::cout << f << " ";
+                std::cout << std::endl;
+            }
+        }
+
+        //std::cout << "Computing dot products... ";
+        // For all the different position and gradient vectors
+        for (uint64_t i = 0; i < (1 << dim); i++) {
+            std::vector<float> position = positions[i];
+            std::vector<float> grad = nodes[node + nodes_order[i]];
+
+            float sum = 0;
+            // Add the contribution of all components to the scalar product
+            for (uint64_t j = 0; j < dim; j++) {
+                sum += position[j] * grad[j];
+            }
+
+            values.push_back(sum);
+        }
+        //std::cout << "done !" << std::endl;
+
+        //std::cout << "Computing interpolation... ";
+        // Interpolate all the elements of this array pairwise
+        for (uint64_t i = 0; i < dim; i++) {
+            float dist = unitCoo[i];
+
+            std::vector<float> new_values;
+            for (uint64_t j = 0; j < (1 << (dim - 1 - i)); j++) {
+                new_values.push_back(interpolate(values[2*j], values[2*j+1], dist));
+            }
+            values = new_values;
+        }
+        //std::cout << "done !" << std::endl;
+
+        // Return interpolated value
+        return values[0];
+    }
+
+    void Perlin::setGrid(std::vector<std::vector<float>> grid) {
+        this->nodes = grid;
+    }
 }
