@@ -1,0 +1,5 @@
+set(DOXYGEN_EXTRACT_ALL YES)
+set(DOXYGGEN_BUILTIN_STIL_SUPPORT YES)
+
+doxygen_add_docs(docs perlin.hpp "${CMAKE_CURRENT_SOURCE_DIR}/doc.md"
+    WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/include")

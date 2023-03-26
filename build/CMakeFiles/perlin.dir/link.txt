@@ -1,0 +1,2 @@
+/usr/bin/ar qc libperlin.a CMakeFiles/perlin.dir/src/perlin.cpp.o
+/usr/bin/ranlib libperlin.a

@@ -1,0 +1,5 @@
+if(EXISTS "/home/rosch/Perlin/build/test/perlin_test[1]_tests.cmake")
+  include("/home/rosch/Perlin/build/test/perlin_test[1]_tests.cmake")
+else()
+  add_test(perlin_test_NOT_BUILT perlin_test_NOT_BUILT)
+endif()
