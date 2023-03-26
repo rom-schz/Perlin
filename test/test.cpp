@@ -26,7 +26,7 @@ TEST(PeriodicityTest, Periodicity1D) {
 	coo1.push_back(0);
 	coo2.push_back(2);
 
-	ASSERT_EQ(p.getNode(coo1), p.getNode(coo2));
+	ASSERT_EQ(p.getNodeValue(coo1), p.getNodeValue(coo2));
 }
 
 TEST(PeriodicityTest, Periodicity2D) {
@@ -43,9 +43,9 @@ TEST(PeriodicityTest, Periodicity2D) {
 	coo3.push_back(0); coo3.push_back(2);
 	coo4.push_back(2); coo4.push_back(2);
 
-	ASSERT_EQ(p.getNode(coo1), p.getNode(coo2));
-	ASSERT_EQ(p.getNode(coo1), p.getNode(coo3));
-	ASSERT_EQ(p.getNode(coo1), p.getNode(coo4));
+	ASSERT_EQ(p.getNodeValue(coo1), p.getNodeValue(coo2));
+	ASSERT_EQ(p.getNodeValue(coo1), p.getNodeValue(coo3));
+	ASSERT_EQ(p.getNodeValue(coo1), p.getNodeValue(coo4));
 }
 
 TEST(PeriodicityTest, Periodicity3D) {
@@ -68,14 +68,13 @@ TEST(PeriodicityTest, Periodicity3D) {
 	coo7.push_back(0); coo7.push_back(2); coo7.push_back(2);
 	coo8.push_back(2); coo8.push_back(2); coo8.push_back(2);
 
-
-	ASSERT_EQ(p.getNode(coo1), p.getNode(coo2));
-	ASSERT_EQ(p.getNode(coo1), p.getNode(coo3));
-	ASSERT_EQ(p.getNode(coo1), p.getNode(coo4));
-	ASSERT_EQ(p.getNode(coo1), p.getNode(coo5));
-	ASSERT_EQ(p.getNode(coo1), p.getNode(coo6));
-	ASSERT_EQ(p.getNode(coo1), p.getNode(coo7));
-	ASSERT_EQ(p.getNode(coo1), p.getNode(coo8));
+	ASSERT_EQ(p.getNodeValue(coo1), p.getNodeValue(coo2));
+	ASSERT_EQ(p.getNodeValue(coo1), p.getNodeValue(coo3));
+	ASSERT_EQ(p.getNodeValue(coo1), p.getNodeValue(coo4));
+	ASSERT_EQ(p.getNodeValue(coo1), p.getNodeValue(coo5));
+	ASSERT_EQ(p.getNodeValue(coo1), p.getNodeValue(coo6));
+	ASSERT_EQ(p.getNodeValue(coo1), p.getNodeValue(coo7));
+	ASSERT_EQ(p.getNodeValue(coo1), p.getNodeValue(coo8));
 }
 
 TEST(NoiseGenerationTest, NoiseGeneration1D) {
