@@ -362,5 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-# Remove build folder from git
+# Remove files and folders added by user
 build
+.vscode
