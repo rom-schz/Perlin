@@ -16,6 +16,12 @@ namespace Perlin
      * ==============================================================================================
      */
 
+    Perlin::Perlin()
+    {
+        this->dim = 0;
+        this->sizes = std::vector<uint64_t>();
+    }
+
     // Initialize the grid with given sizes (e.g.: [n, m, p] describes the grid of a noise of dimension 3).
     Perlin::Perlin(std::vector<uint64_t> &sizes)
     {

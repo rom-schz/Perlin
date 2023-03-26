@@ -4,13 +4,14 @@
 #include <cstdint>
 #include <functional>
 
-namespace Perlin
-{
+namespace Perlin {
 
-    class Perlin {
+class Perlin {
 
 
-    public:
+public:
+
+        Perlin();
 
         /**
          * Initialize the grid and other private parameters of the noise.
@@ -43,7 +44,7 @@ namespace Perlin
         */
         std::vector<float> const getNodeValue(std::vector<uint64_t>& coo);
 
-    private:
+private:
         uint64_t dim;
         std::vector<uint64_t> sizes; // [n, m, p, ...]
         std::vector<uint64_t> prod_sizes; // [1, n, n * m, n * m * p, ...]
@@ -171,5 +172,5 @@ namespace Perlin
         */
         float interpolate_rough(float val0, float val1, float w);
     };
-}
 
+}

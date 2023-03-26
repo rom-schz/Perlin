@@ -10,7 +10,7 @@ FetchContent_MakeAvailable(googletest)
 
 # Tests need to be added as executables first
 add_executable(
-    perlin_test 
+    perlin_test
     test.cpp
 )
 
