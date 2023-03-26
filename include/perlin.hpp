@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <cstdint>
+#include <functional>
 
 namespace Perlin
 {
@@ -32,7 +33,7 @@ namespace Perlin
          * @param coordinates the coordinates of the point where the noise has to be computed.
          * @return the computed noise as a floating value.
         */
-        float noise(std::vector<float>& coordinates);
+        float noise(std::vector<float>& coordinates, int continuity=2);
 
         /**
          * Returns the vector stored as the node of given coordinates.
@@ -145,11 +146,30 @@ namespace Perlin
          * Standard smooth interpolation function between two values separated by a 1-length interval. 
          * Ensures a C2 continuity.
          * 
-         * @param val1 left interpolated value
-         * @param val2 right interpolated value
-         * @param dist distance to the left value, 1-dist gives the distance to the right value.
+         * @param val0 left interpolated value
+         * @param val1 right interpolated value
+         * @param w distance to the left value, 1-w gives the distance to the right value.
         */
-        float interpolate(float val1, float val2, float dist);
+        float interpolate_ultra_smooth(float val0, float val1, float w);
+
+        /**
+         * Standard smooth interpolation function between two values separated by a 1-length interval. 
+         * Ensures a C1 continuity.
+         * 
+         * @param val0 left interpolated value
+         * @param val1 right interpolated value
+         * @param w distance to the left value, 1-w gives the distance to the right value.
+        */
+        float interpolate_smooth(float val0, float val1, float w);
+
+        /**
+         * Linear interpolation function between two values separated by a 1-length interval.
+         * 
+         * @param val0 left interpolated value
+         * @param val1 right interpolated value
+         * @param w distance to the left value, 1-w gives the distance to the right value.
+        */
+        float interpolate_rough(float val0, float val1, float w);
     };
 }
 
