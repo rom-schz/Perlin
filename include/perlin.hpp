@@ -21,7 +21,7 @@ public:
          *  The size also includes the last layers of the grid used for periodicity and therefore gives the exact size
          *  with which the grid will be stored in memory.
         */
-        Perlin(std::vector<uint64_t>& sizes);
+        Perlin(std::vector<uint64_t>& sizes, int continuity=2);
 
         /**
          * Helper method, useful for debugging.
@@ -34,7 +34,7 @@ public:
          * @param coordinates the coordinates of the point where the noise has to be computed.
          * @return the computed noise as a floating value.
         */
-        float noise(std::vector<float>& coordinates, int continuity=2);
+        float noise(std::vector<float>& coordinates);
 
         /**
          * Returns the vector stored as the node of given coordinates.
@@ -46,6 +46,7 @@ public:
 
 private:
         uint64_t dim;
+        int continuity; // the continuity condition to apply during interpolation.
         std::vector<uint64_t> sizes; // [n, m, p, ...]
         std::vector<uint64_t> prod_sizes; // [1, n, n * m, n * m * p, ...]
         std::vector<std::vector<float>> nodes; // The values stored in the gridd

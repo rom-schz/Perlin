@@ -20,13 +20,15 @@ namespace Perlin
     {
         this->dim = 0;
         this->sizes = std::vector<uint64_t>();
+        this->continuity = 2;
     }
 
     // Initialize the grid with given sizes (e.g.: [n, m, p] describes the grid of a noise of dimension 3).
-    Perlin::Perlin(std::vector<uint64_t> &sizes)
+    Perlin::Perlin(std::vector<uint64_t> &sizes, int continuity)
     {
         this->dim = sizes.size();
         this->sizes = sizes;
+        this->continuity = continuity;
 
         initGrid();
         initOrder();
@@ -66,7 +68,7 @@ namespace Perlin
         std::cout << std::endl;
     }
 
-    float Perlin::noise(std::vector<float> &coordinates, int continuity)
+    float Perlin::noise(std::vector<float> &coordinates)
     {
 
         /* Prepare coordinates to compute noise */
